@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SI MARKET
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk **manajemen stok dan perhitungan uang bersih** pada toko sembako. Dibangun dengan Laravel 10, Tailwind CSS, dan Alpine.js.
 
-## About Laravel
+Sistem ini menggunakan **satu pintu login** (single user / satu role: Administrator) dan fokus pada pencatatan **restock (pembelian)** serta **penjualan**, sehingga uang bersih dapat dihitung otomatis tanpa integrasi pembayaran.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Satu pintu login** dengan satu role (Administrator).
+- **Dashboard** ringkasan stok, transaksi terbaru, dan uang bersih bulan berjalan.
+- **Data Barang** dengan dua satuan: satuan beli (besar) dan satuan jual (eceran) beserta nilai konversinya.
+- **Restock (Pembelian)** — menambah stok barang, otomatis mengurangi uang bersih (pengeluaran).
+- **Penjualan** — mengurangi stok, otomatis menambah uang bersih (pemasukan). Mendukung penjualan eceran dengan konversi satuan.
+- **Laporan** stok & keuangan per periode (Awal, Restock, Jual, Akhir, Nilai Stok) yang siap dicetak.
+- **Riwayat Transaksi** dengan filter jenis, bulan, dan tahun.
+- **Profil** untuk mengubah nama dan password.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Konsep Perhitungan
 
-## Learning Laravel
+**Uang bersih = Total Penjualan − Total Restock (Pembelian)**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Stok disimpan dalam **satuan beli** (satuan besar). Penjualan dapat dilakukan dalam **satuan jual** (satuan eceran), lalu dikonversi otomatis ke satuan beli.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Contoh: Wortel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Pengaturan Barang | Nilai |
+| --- | --- |
+| Satuan beli | `kg` |
+| Satuan jual | `rubak` (¼ kg) |
+| Isi per satuan jual | `0.25` |
+| Harga beli | Rp 10.000 / kg |
+| Harga jual | Rp 10.000 / rubak |
 
-## Laravel Sponsors
+| Aksi | Input | Efek Stok | Uang |
+| --- | --- | --- | --- |
+| Restock | 50 kg (total Rp 500.000) | +50 kg | keluar Rp 500.000 |
+| Penjualan | 4 rubak × Rp 10.000 | −1 kg | masuk Rp 40.000 |
+| Penjualan | 2 rubak × Rp 10.000 | −0.5 kg | masuk Rp 20.000 |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Untuk barang tanpa eceran (mis. Mie), cukup isi satuan jual sama dengan satuan beli dan **Isi per satuan jual = 1**.
 
-### Premium Partners
+## Teknologi
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- [Laravel 10](https://laravel.com)
+- PHP 8.1+ (diuji pada PHP 8.2)
+- MySQL / MariaDB
+- [Tailwind CSS](https://tailwindcss.com) + [Alpine.js](https://alpinejs.dev)
+- [Vite](https://vitejs.dev)
 
-## Contributing
+## Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Prasyarat: PHP >= 8.1, Composer, Node.js & npm, serta MySQL.
 
-## Code of Conduct
+```bash
+# 1. Clone repository
+git clone https://github.com/indra-syah-putra/simarket.git
+cd simarket
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 2. Install dependency backend
+composer install
 
-## Security Vulnerabilities
+# 3. Salin konfigurasi environment
+cp .env.example .env
+php artisan key:generate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 4. Buat database (contoh via MySQL)
+#    CREATE DATABASE simarket;
 
-## License
+# 5. Sesuaikan koneksi database pada file .env
+#    DB_DATABASE=simarket
+#    DB_USERNAME=root
+#    DB_PASSWORD=
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 6. Jalankan migrasi sekaligus membuat akun admin
+php artisan migrate --seed
+
+# 7. Install dependency frontend & build aset
+npm install
+npm run build
+
+# 8. Jalankan aplikasi
+php artisan serve
+```
+
+Aplikasi berjalan di `http://127.0.0.1:8000`.
+
+### Akun Default
+
+Setelah `migrate --seed`, tersedia akun administrator:
+
+| Email | Password |
+| --- | --- |
+| `admin@simarket.test` | `password` |
+
+> Disarankan segera mengganti password melalui menu **Profil** setelah login pertama.
+
+## Konfigurasi Identitas Toko
+
+Nama, alamat, kontak, dan nama penandatangan pada laporan dapat diatur melalui `.env`:
+
+```env
+COMPANY_NAME="SI MARKET"
+COMPANY_ADDRESS="Jl. Raya Pasar No. 10, Kota Anda, Indonesia"
+COMPANY_PHONE="(021) 1234-5678"
+COMPANY_EMAIL="simarket@example.com"
+```
+
+## Struktur Menu
+
+- **Dashboard** — ringkasan stok & uang bersih.
+- **Data Barang** — kelola master barang beserta satuan dan harga.
+- **Restock** — catat pembelian / penambahan stok.
+- **Laporan & Transaksi** — berisi **Riwayat Transaksi** dan **Laporan**.
+- **Transaksi Baru** — catat penjualan ke pembeli.
+
+## Lisensi
+
+Proyek ini dirilis di bawah lisensi [MIT](https://opensource.org/licenses/MIT).
