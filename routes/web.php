@@ -31,9 +31,24 @@ Route::middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class)->except('show');
 
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
-    Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
-    Route::post('/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store')->middleware('throttle:30,1');
-    Route::delete('/transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+
+    // Penjualan (barang keluar) — satu nota bisa banyak item
+    Route::get('/transaksi/create', [TransaksiController::class, 'createPenjualan'])->name('transaksi.create');
+    Route::post('/transaksi', [TransaksiController::class, 'storePenjualan'])->name('transaksi.store')->middleware('throttle:30,1');
+
+    // Restock (pembelian) — form khusus
+    Route::get('/restock/create', [TransaksiController::class, 'createRestock'])->name('restock.create');
+    Route::post('/restock', [TransaksiController::class, 'storeRestock'])->name('restock.store')->middleware('throttle:30,1');
+
+    // Penyesuaian stok (stok fisik) — form khusus
+    Route::get('/stok/create', [TransaksiController::class, 'createPenyesuaian'])->name('stok.create');
+    Route::post('/stok', [TransaksiController::class, 'storePenyesuaian'])->name('stok.store')->middleware('throttle:30,1');
+
+    // Cetak struk nota
+    Route::get('/transaksi/nota/{kode}', [TransaksiController::class, 'struk'])->name('transaksi.nota');
+
+    // Hapus seluruh item dalam satu nota
+    Route::delete('/transaksi/nota/{kode}', [TransaksiController::class, 'destroyNota'])->name('transaksi.destroy');
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 

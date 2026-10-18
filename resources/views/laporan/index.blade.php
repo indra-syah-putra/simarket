@@ -10,7 +10,7 @@
         <div class="no-print bg-white p-6 rounded-xl shadow-sm border border-slate-200">
             <h2 class="text-xl font-bold mb-4 text-slate-800">Filter Laporan</h2>
             <form action="{{ route('laporan.index') }}" method="GET" class="flex flex-wrap gap-4 items-end">
-                <div class="flex-1 min-w-[150px]">
+                <div class="w-full sm:flex-1 sm:min-w-[150px]">
                     <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Bulan</label>
                     <select name="month"
                         class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-medium">
@@ -21,7 +21,7 @@
                         @endfor
                     </select>
                 </div>
-                <div class="w-32">
+                <div class="w-full sm:w-32">
                     <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tahun</label>
                     <select name="year"
                         class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-medium">
@@ -30,16 +30,17 @@
                         @endfor
                     </select>
                 </div>
-                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-emerald-700 font-bold text-sm transition shadow-sm">Tampilkan</button>
+                <button type="submit" class="w-full sm:w-auto bg-primary text-white px-6 py-2 rounded-lg hover:bg-emerald-700 font-bold text-sm transition shadow-sm">Tampilkan</button>
                 <button type="button" onclick="window.print()"
-                    class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 font-bold text-sm transition shadow-sm flex items-center gap-2">
+                    class="w-full sm:w-auto bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 font-bold text-sm transition shadow-sm flex items-center justify-center gap-2">
                     <i class="fa-solid fa-print"></i> Cetak PDF
                 </button>
             </form>
         </div>
 
         {{-- KERTAS LAPORAN --}}
-        <div class="paper-container mx-auto bg-white shadow-lg p-10 border border-slate-200 min-h-[600px]">
+        <div class="overflow-x-auto pb-2">
+        <div class="paper-container mx-auto bg-white shadow-lg p-5 sm:p-10 border border-slate-200 min-h-[600px] min-w-[680px] sm:min-w-0">
 
             <div class="border-b-4 border-double border-slate-800 pb-6 mb-8 text-center">
                 <h1 class="text-3xl font-extrabold uppercase tracking-widest text-slate-900 font-serif">{{ company('name') }}</h1>
@@ -92,6 +93,7 @@
                         <th class="border px-2 py-2 w-20 text-center">Awal</th>
                         <th class="border px-2 py-2 w-20 text-center">Restock</th>
                         <th class="border px-2 py-2 w-20 text-center">Jual</th>
+                        <th class="border px-2 py-2 w-20 text-center">Sesuaikan</th>
                         <th class="border px-2 py-2 w-20 text-center">Akhir</th>
                         <th class="border px-2 py-2 w-28 text-right">H. Beli</th>
                         <th class="border px-2 py-2 w-36 text-right bg-blue-50">Nilai Stok</th>
@@ -109,17 +111,20 @@
                             <td class="border px-2 py-2 text-center">{{ angka($item['stok_awal']) }}</td>
                             <td class="border px-2 py-2 text-center">{{ angka($item['restock']) }}</td>
                             <td class="border px-2 py-2 text-center">{{ angka($item['penjualan']) }}</td>
-                            <td class="border px-2 py-2 text-center font-bold bg-slate-50">{{ angka($item['stok_akhir']) }}</td>
+                            <td class="border px-2 py-2 text-center {{ (float) $item['penyesuaian'] != 0 ? 'text-amber-600 font-semibold' : '' }}">
+                                {{ (float) $item['penyesuaian'] != 0 ? ($item['penyesuaian'] > 0 ? '+' : '') . angka($item['penyesuaian']) : '-' }}
+                            </td>
+                            <td class="border px-2 py-2 text-center font-bold bg-slate-50 {{ $item['stok_akhir'] < 0 ? 'text-red-600' : '' }}">{{ angka($item['stok_akhir']) }}</td>
                             <td class="border px-2 py-2 text-right">{{ number_format((float) $item['barang']->harga_beli, 0, ',', '.') }}</td>
                             <td class="border px-2 py-2 text-right font-bold bg-blue-50">{{ number_format($item['nilai_stok'], 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="border px-4 py-8 text-center text-slate-500">Tidak ada data pada periode ini.</td>
+                            <td colspan="10" class="border px-4 py-8 text-center text-slate-500">Tidak ada data pada periode ini.</td>
                         </tr>
                     @endforelse
                     <tr class="bg-slate-100 font-bold text-lg">
-                        <td colspan="8" class="border px-4 py-3 text-right">TOTAL NILAI STOK:</td>
+                        <td colspan="9" class="border px-4 py-3 text-right">TOTAL NILAI STOK:</td>
                         <td class="border px-2 py-3 text-right bg-blue-100">{{ rupiah($totalNilaiStok) }}</td>
                     </tr>
                 </tbody>
@@ -143,6 +148,7 @@
                 </div>
             </div>
 
+        </div>
         </div>
     </div>
 

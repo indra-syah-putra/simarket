@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->enum('jenis', ['restock', 'penjualan']);
+            $table->string('kode')->nullable()->index();
             $table->foreignId('barang_id')->constrained('barangs')->cascadeOnDelete();
             $table->string('satuan');
             $table->decimal('qty', 15, 4);

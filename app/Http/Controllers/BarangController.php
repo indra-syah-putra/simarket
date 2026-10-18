@@ -44,6 +44,10 @@ class BarangController extends Controller
             'min_stok' => 'required|numeric|min:0',
         ]);
 
+        if (empty($validated['kode'])) {
+            $validated['kode'] = 'BRG-' . str_pad((string) ((int) Barang::withTrashed()->max('id') + 1), 3, '0', STR_PAD_LEFT);
+        }
+
         Barang::create($validated);
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
@@ -65,7 +69,7 @@ class BarangController extends Controller
             'isi_jual' => 'required|numeric|min:0.0001',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
-            'stok' => 'required|numeric|min:0',
+            'stok' => 'required|numeric',
             'min_stok' => 'required|numeric|min:0',
         ]);
 

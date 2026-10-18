@@ -38,6 +38,12 @@ class LaporanController extends Controller
                 ->whereMonth('tanggal', $month)
                 ->sum('qty_stok');
 
+            $penyesuaian = (float) Transaksi::where('barang_id', $barang->id)
+                ->where('jenis', 'penyesuaian')
+                ->whereYear('tanggal', $year)
+                ->whereMonth('tanggal', $month)
+                ->sum('qty_stok');
+
             // Pergerakan sejak awal bulan ini (termasuk bulan berjalan) untuk menghitung stok awal.
             $restockSisa = (float) Transaksi::where('barang_id', $barang->id)
                 ->where('jenis', 'restock')
@@ -49,21 +55,21 @@ class LaporanController extends Controller
                 ->where('tanggal', '>=', $startOfMonth)
                 ->sum('qty_stok');
 
-            $stokAwal = (float) $barang->stok - $restockSisa + $penjualanSisa;
-            if ($stokAwal < 0) {
-                $stokAwal = 0;
-            }
+            $penyesuaianSisa = (float) Transaksi::where('barang_id', $barang->id)
+                ->where('jenis', 'penyesuaian')
+                ->where('tanggal', '>=', $startOfMonth)
+                ->sum('qty_stok');
 
-            $stokAkhir = $stokAwal + $restock - $penjualan;
-            if ($stokAkhir < 0) {
-                $stokAkhir = 0;
-            }
+            $stokAwal = (float) $barang->stok - $restockSisa - $penyesuaianSisa + $penjualanSisa;
+
+            $stokAkhir = $stokAwal + $restock - $penjualan + $penyesuaian;
 
             $reports[] = [
                 'barang' => $barang,
                 'stok_awal' => $stokAwal,
                 'restock' => $restock,
                 'penjualan' => $penjualan,
+                'penyesuaian' => $penyesuaian,
                 'stok_akhir' => $stokAkhir,
                 'nilai_stok' => $stokAkhir * (float) $barang->harga_beli,
             ];

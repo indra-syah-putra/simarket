@@ -6,7 +6,7 @@
 @section('content')
     <div class="max-w-3xl mx-auto">
         <div class="mb-6">
-            <h2 class="text-2xl font-bold text-slate-800">Edit Profil</h2>
+            <h2 class="text-xl font-bold text-slate-800">Edit Profil</h2>
             <p class="text-sm text-slate-500">Perbarui nama dan password akun Anda.</p>
         </div>
 

@@ -10,8 +10,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      *
-     * Hanya membuat akun admin agar bisa login.
-     * Data barang & transaksi dikosongkan (diisi manual lewat aplikasi).
+     * Membuat akun admin dan data dummy barang untuk uji coba.
      */
     public function run(): void
     {
@@ -20,5 +19,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@simarket.test',
             'password' => bcrypt('password'),
         ]);
+
+        $this->call(BarangSeeder::class);
     }
 }

@@ -63,6 +63,10 @@
                                 class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors {{ request()->routeIs('transaksi.index') ? 'bg-slate-50 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">
                                 <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i> Riwayat Transaksi
                             </a>
+                            <a href="{{ route('stok.create') }}"
+                                class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors {{ request()->routeIs('stok*') ? 'bg-slate-50 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">
+                                <i class="fa-solid fa-sliders w-4 text-center"></i> Penyesuaian Stok
+                            </a>
                             <a href="{{ route('laporan.index') }}"
                                 class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors {{ request()->routeIs('laporan*') ? 'bg-slate-50 text-primary font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">
                                 <i class="fa-solid fa-file-invoice-dollar w-4 text-center"></i> Laporan
@@ -130,6 +134,7 @@
             <a href="{{ route('barang.index') }}" class="block px-3 py-2 rounded-lg text-slate-600 font-medium hover:bg-slate-100">Data Barang</a>
             <a href="{{ route('transaksi.create', ['jenis' => 'restock']) }}" class="block px-3 py-2 rounded-lg text-slate-600 font-medium hover:bg-slate-100">Restock</a>
             <a href="{{ route('transaksi.index') }}" class="block px-3 py-2 rounded-lg text-slate-600 font-medium hover:bg-slate-100">Riwayat Transaksi</a>
+            <a href="{{ route('stok.create') }}" class="block px-3 py-2 rounded-lg text-slate-600 font-medium hover:bg-slate-100">Penyesuaian Stok</a>
             <a href="{{ route('laporan.index') }}" class="block px-3 py-2 rounded-lg text-slate-600 font-medium hover:bg-slate-100">Laporan</a>
             <a href="{{ route('transaksi.create', ['jenis' => 'penjualan']) }}" class="block px-3 py-2 rounded-lg text-white font-bold bg-accent text-center mt-2">+ Transaksi Baru (Penjualan)</a>
 

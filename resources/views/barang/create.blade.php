@@ -13,7 +13,7 @@
             <a href="{{ route('barang.index') }}" class="text-sm font-medium text-slate-500 hover:text-primary transition-colors">
                 &larr; Kembali ke Data Barang
             </a>
-            <h2 class="text-2xl font-bold text-slate-800 mt-2">Tambah Barang</h2>
+            <h2 class="text-xl font-bold text-slate-800 mt-2">Tambah Barang</h2>
             <p class="text-sm text-slate-500">Lengkapi data barang beserta satuan beli (besar) dan satuan jual (eceran).</p>
         </div>
 
@@ -110,13 +110,13 @@
                     </div>
                 </div>
 
-                <div class="pt-6 border-t border-slate-100 flex justify-end gap-3">
+                <div class="pt-6 border-t border-slate-100 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                     <a href="{{ route('barang.index') }}"
-                        class="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                        class="w-full sm:w-auto text-center px-5 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
                         Batal
                     </a>
                     <button type="submit"
-                        class="px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-emerald-700 rounded-lg shadow-sm transition-colors flex items-center gap-2">
+                        class="w-full sm:w-auto justify-center px-5 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-emerald-700 rounded-lg shadow-sm transition-colors flex items-center gap-2">
                         <i class="fa-solid fa-save"></i> Simpan Barang
                     </button>
                 </div>
